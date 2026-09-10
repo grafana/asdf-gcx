@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+TOOL_NAME="gcx"
+
+fail() {
+	echo -e "asdf-$TOOL_NAME: $*" >&2
+	exit 1
+}
+
+install_version="$ASDF_INSTALL_VERSION"
+install_type="$ASDF_INSTALL_TYPE"
+install_path="$ASDF_INSTALL_PATH"
+download_path="$ASDF_DOWNLOAD_PATH"
+
+if [ "$install_type" != "version" ]; then
+	fail "only release installs are supported (asdf install $TOOL_NAME <version>)"
+fi
+
+[ -f "$download_path/$TOOL_NAME" ] || fail "expected binary not found at $download_path/$TOOL_NAME"
+
+mkdir -p "$install_path/bin"
+cp "$download_path/$TOOL_NAME" "$install_path/bin/$TOOL_NAME"
+chmod +x "$install_path/bin/$TOOL_NAME"
+
+"$install_path/bin/$TOOL_NAME" --version >/dev/null 2>&1 ||
+	fail "$TOOL_NAME binary is not executable after install"
+
+echo "$TOOL_NAME $install_version installed!"

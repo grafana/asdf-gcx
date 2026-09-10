@@ -1,0 +1,3 @@
+* curl
+* tar
+* git (used by list-all to read available versions)

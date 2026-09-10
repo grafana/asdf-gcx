@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+GH_REPO="https://github.com/grafana/gcx"
+TOOL_NAME="gcx"
+
+fail() {
+	echo -e "asdf-$TOOL_NAME: $*" >&2
+	exit 1
+}
+
+get_platform() {
+	case "$(uname -s)" in
+	Darwin) echo "darwin" ;;
+	Linux) echo "linux" ;;
+	*) fail "unsupported OS: $(uname -s). gcx releases only cover darwin and linux." ;;
+	esac
+}
+
+get_arch() {
+	case "$(uname -m)" in
+	x86_64 | amd64) echo "amd64" ;;
+	arm64 | aarch64) echo "arm64" ;;
+	*) fail "unsupported architecture: $(uname -m)" ;;
+	esac
+}
+
+download_release() {
+	local version="$1"
+	local download_path="$2"
+	local platform arch archive url
+
+	platform="$(get_platform)"
+	arch="$(get_arch)"
+	archive="${TOOL_NAME}_${version}_${platform}_${arch}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/${archive}"
+
+	echo "* Downloading $TOOL_NAME release $version ($platform/$arch)..."
+	curl -fsSL -o "$download_path/$archive" "$url" ||
+		fail "could not download $url"
+
+	echo "* Extracting $archive..."
+	tar -xzf "$download_path/$archive" -C "$download_path" ||
+		fail "could not extract $download_path/$archive"
+
+	rm -f "$download_path/$archive"
+}
+
+download_release "$ASDF_INSTALL_VERSION" "$ASDF_DOWNLOAD_PATH"

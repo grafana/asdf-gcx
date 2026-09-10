@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+GH_REPO="https://github.com/grafana/gcx"
+
+list_all_versions() {
+	git ls-remote --tags --refs "$GH_REPO" |
+		grep -o 'refs/tags/.*' |
+		cut -d/ -f3- |
+		sed 's/^v//' |
+		sort -t. -k1,1n -k2,2n -k3,3n
+}
+
+list_all_versions | tr '\n' ' '

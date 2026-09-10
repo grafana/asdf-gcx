@@ -1,0 +1,6 @@
+gcx is a unified CLI for managing Grafana and Grafana Cloud resources:
+dashboards, datasources, alerting, SLO, IRM, Synthetic Monitoring, Fleet, k6,
+and more.
+
+This plugin installs prebuilt release binaries from
+https://github.com/grafana/gcx/releases.
