@@ -23,11 +23,14 @@ asdf plugin add gcx ~/workspace/github/grafana/asdf-gcx
 ## Use
 
 ```bash
-asdf list-all gcx
+asdf list all gcx
 asdf install gcx latest
-asdf global gcx latest
+asdf set -u gcx latest
 gcx --version
 ```
+
+`asdf set -u` sets the global version, for asdf 0.16 and later. On an older
+asdf release, use `asdf global gcx latest` instead.
 
 ## Dependencies
 
