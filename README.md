@@ -37,3 +37,8 @@ asdf release, use `asdf global gcx latest` instead.
 * `curl`
 * `tar`
 * `git` (used by `list-all` to read available versions from GitHub tags)
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE). Same license as
+[grafana/gcx](https://github.com/grafana/gcx).
